@@ -34,27 +34,74 @@
 
   <script>
     // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = "1084289328";
+    const serviceWorkerVersion = "835788593";
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
-  <script type="module">
-          import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
-          const firebaseConfig = {
-            apiKey: "...",
-            authDomain: "[YOUR_PROJECT].firebaseapp.com",
-            databaseURL: "https://[YOUR_PROJECT].firebaseio.com",
-            projectId: "[YOUR_PROJECT]",
-            storageBucket: "[YOUR_PROJECT].appspot.com",
-            messagingSenderId: "...",
-            appId: "1:...:web:...",
-            measurementId: "G-...",
-          };
-          const app = initializeApp(firebaseConfig);
-   </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApyXdtsPQmQIEXwUGWRJ6tj4uB5NUHD2A"></script>
 
+  <!-- Web render for image -->
+  <script type="text/javascript">
+    window.flutterWebRenderer = "html";
+  </script>
+  <!-- Push notification subcription -->
+
+  <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-messaging.js"></script>
+  <script>
+      <!-- Your web app's Firebase configuration -->
+      var firebaseConfig = {
+        apiKey: "AIzaSyAOnIdVtRo8Xq64i7r3cK8vCoDcXwP0x0c",
+        authDomain: "mybeautyapp-7a645.firebaseapp.com",
+        projectId: "mybeautyapp-7a645",
+        storageBucket: "mybeautyapp-7a645.appspot.com",
+        messagingSenderId: "264632956120",
+        appId: "1:264632956120:web:8d6d814b542b512f0693ad",
+      };
+      <!-- Initialize Firebase -->
+      firebase.initializeApp(firebaseConfig);
+
+      const messaging = firebase.messaging();
+
+
+      messaging.onMessage((payload) => {
+        console.log('Message received. ', payload);
+      });
+
+      messaging.onTokenRefresh(() => {
+        messaging.getToken().then((refreshedToken) => {
+          console.log('Token refreshed.', refreshedToken);
+        }).catch((err) => {
+          console.log('Unable to retrieve refreshed token ', err);
+        });
+      });
+    </script>
+
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/firebase-messaging-sw.js').then(function(registration) {
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      }, function(err) {
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    });
+  }
+</script>
 </head>
 <body>
+
+  <script>
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/firebase-messaging-sw.js')
+            .then(function(registration) {
+              console.log('Registration successful, scope is:', registration.scope);
+            }).catch(function(err) {
+              console.log('Service worker registration failed, error:', err);
+            });
+        }
+  </script>
   <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
@@ -70,6 +117,6 @@
       });
     });
   </script>
-
+  <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
